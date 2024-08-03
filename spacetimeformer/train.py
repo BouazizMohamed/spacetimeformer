@@ -32,6 +32,7 @@ _DSETS = [
     "monash",
     "hangzhou",
     "traffic",
+    "traffic_DLThpVol"
 ]
 
 
@@ -192,6 +193,10 @@ def create_model(config):
         x_dim = 2
         yc_dim = 862
         yt_dim = 862
+    elif config.dset == "traffic_DLThpVol":
+        x_dim = 1
+        yc_dim = 2880
+        yt_dim = 2880
     assert x_dim is not None
     assert yc_dim is not None
     assert yt_dim is not None
@@ -646,6 +651,14 @@ def create_dset(config):
             target_cols = [f"Lane {i}" for i in range(862)]
             time_col_name = "FakeTime"
             time_features = ["month", "day"]
+        elif config.dset == "traffic_DLThpVol":
+            if data_path == "auto":
+                data_path = "./data/traffic_DLThpVol.csv"
+            target_cols = []
+            for i in range(30):
+                for j in range(3):
+                    for k in range(32):
+                        target_cols.append(f"{i}_{j}_{k}")
 
         dset = stf.data.CSVTimeSeries(
             data_path=data_path,
