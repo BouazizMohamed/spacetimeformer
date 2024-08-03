@@ -295,7 +295,7 @@ class Forecaster(pl.LightningModule, ABC):
             "optimizer": optimizer,
             "lr_scheduler": {
                 "scheduler": scheduler,
-                "monitor": "val_loss",
+                "monitor": "val",
             },
         }
 
